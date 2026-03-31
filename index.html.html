@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landlord Eviction Execution Hub | DK Law Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1628; --navy-mid:#152236; --navy-light:#1E3352;
+  --gold:#C9A84C; --gold-light:#E4C26A; --gold-pale:#FBF4E0; --gold-dark:#A07B28;
+  --cream:#FAF8F2; --white:#fff;
+  --text:#1A1A1A; --mid:#3A3A3A; --muted:#666;
+  --border:#E4DAC8; --border-light:#EFE8D8;
+  --warn-bg:#FFF8EC; --warn-border:#C9A84C;
+  --danger-bg:#FEF2F2; --danger-border:#D05050;
+  --ok-bg:#F0FAF0; --ok-border:#4CAF50;
+  --info-bg:#EEF4FF; --info-border:#4060C8;
+  --r:6px; --r-lg:12px; --r-xl:18px;
+  --shadow:0 2px 16px rgba(11,22,40,.07);
+  --shadow-lg:0 6px 32px rgba(11,22,40,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Inter',sans-serif;font-size:15px;line-height:1.65;color:var(--text);background:var(--cream)}
+
+/* ─── TOPBAR ─── */
+.topbar{background:var(--gold);padding:8px 16px;text-align:center;font-size:12px;font-weight:600;color:var(--navy);letter-spacing:.3px}
+.topbar a{color:var(--navy);text-decoration:none;border-bottom:1px solid rgba(0,0,0,.25)}
+
+/* ─── HEADER ─── */
+.site-header{background:var(--navy);position:sticky;top:0;z-index:300;border-bottom:1px solid rgba(201,168,76,.15)}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-box{width:40px;height:40px;border:2px solid var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--gold);flex-shrink:0}
+.logo-txt{display:flex;flex-direction:column;line-height:1}
+.logo-name{font-size:14px;font-weight:600;color:#fff;letter-spacing:1.2px;text-transform:uppercase}
+.logo-tag{font-size:9px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+.hdr-cta{display:flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy);font-weight:700;font-size:13px;padding:9px 18px;border-radius:4px;text-decoration:none;transition:background .2s;white-space:nowrap}
+.hdr-cta svg{width:13px;height:13px}
+.hdr-cta:hover{background:var(--gold-light)}
+
+/* ─── HERO ─── */
+.hero{background:var(--navy);padding:56px 20px 52px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 0%,rgba(201,168,76,.1) 0%,transparent 65%);pointer-events:none}
+.hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:2}
+.hero-label{display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,.14);border:1px solid rgba(201,168,76,.3);color:var(--gold-light);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;padding:5px 13px;border-radius:20px;margin-bottom:20px}
+.hero-label::before{content:'';width:5px;height:5px;background:var(--gold);border-radius:50%}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(30px,5vw,52px);font-weight:700;color:#fff;line-height:1.1;letter-spacing:-.5px;margin-bottom:16px}
+.hero h1 em{font-style:italic;color:var(--gold-light)}
+.hero-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.6);max-width:560px;margin-bottom:32px;line-height:1.7}
+
+/* ─── STAGE SELECTOR (NEW) ─── */
+.stage-selector{background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.2);border-radius:var(--r-xl);padding:24px;margin-bottom:0;max-width:740px}
+.stage-selector h3{font-family:'Playfair Display',serif;font-size:17px;color:#fff;margin-bottom:16px}
+.stage-selector h3 em{font-style:italic;color:var(--gold-light)}
+.stage-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stage-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-lg);padding:16px 12px;text-align:center;cursor:pointer;font-family:'Inter',sans-serif;color:#fff;font-size:13px;font-weight:400;transition:all .2s;line-height:1.4}
+.stage-btn .stage-icon{font-size:20px;display:block;margin-bottom:7px}
+.stage-btn:hover{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.4)}
+.stage-btn.active{background:var(--gold);border-color:var(--gold);color:var(--navy);font-weight:600}
+
+/* ─── PROGRESS TRACKER ─── */
+.tracker-section{background:#fff;border-bottom:1px solid var(--border-light);padding:28px 20px}
+.tracker-inner{max-width:1200px;margin:0 auto}
+.tracker-title{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.tracker{display:flex;align-items:flex-start;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+.tr-step{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:100px;flex:1;position:relative;cursor:pointer}
+.tr-step:not(:last-child)::after{content:'';position:absolute;top:16px;left:50%;right:-50%;height:2px;background:var(--border);z-index:0}
+.tr-step.done:not(:last-child)::after{background:var(--gold)}
+.tr-dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--muted);position:relative;z-index:1;transition:all .3s;flex-shrink:0}
+.tr-step.done .tr-dot{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.tr-step.active .tr-dot{background:var(--navy);border-color:var(--navy);color:#fff;box-shadow:0 0 0 4px rgba(11,22,40,.12)}
+.tr-label{font-size:11px;font-weight:500;color:var(--muted);text-align:center;line-height:1.3}
+.tr-step.done .tr-label{color:var(--gold-dark);font-weight:600}
+.tr-step.active .tr-label{color:var(--navy);font-weight:600}
+.tr-badge{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:2px}
+.badge-deadline{background:var(--warn-bg);color:#8A5A00;border:1px solid var(--warn-border)}
+.badge-risk{background:var(--danger-bg);color:#900;border:1px solid var(--danger-border)}
+.badge-done{background:var(--ok-bg);color:#1A6A1A;border:1px solid var(--ok-border)}
+
+/* ─── MAIN LAYOUT ─── */
+.main-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:240px 1fr;gap:40px;padding:40px 20px 80px;align-items:start}
+.sidebar{position:sticky;top:80px}
+.nav-section-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:0 10px;margin-bottom:8px}
+.side-nav{list-style:none;display:flex;flex-direction:column;gap:2px;margin-bottom:20px}
+.side-nav a{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:6px;text-decoration:none;color:var(--mid);font-size:13px;transition:all .15s;border:1px solid transparent}
+.side-nav a:hover{background:#fff;color:var(--navy);border-color:var(--border-light)}
+.side-nav a.active{background:var(--navy);color:#fff;font-weight:500}
+.side-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.side-nav a.active .side-dot{background:var(--gold-light)}
+.sidebar-card{background:var(--navy);border-radius:var(--r-lg);padding:18px;margin-bottom:16px}
+.sidebar-card h4{font-family:'Playfair Display',serif;font-size:15px;color:#fff;margin-bottom:8px}
+.sidebar-card p{font-size:12px;color:rgba(255,255,255,.55);line-height:1.55;margin-bottom:12px}
+.sidebar-card .sc-btn{display:block;text-align:center;background:var(--gold);color:var(--navy);font-weight:700;font-size:12px;padding:9px;border-radius:4px;text-decoration:none;transition:background .2s}
+.sidebar-card .sc-btn:hover{background:var(--gold-light)}
+.sidebar-disclaimer{background:var(--warn-bg);border:1px solid var(--warn-border);border-radius:var(--r);padding:12px;font-size:11px;color:#7A5500;line-height:1.55}
+
+/* ─── CONTENT SECTION ─── */
+.content-section{scroll-margin-top:80px;margin-bottom:52px}
+.section-eyebrow{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.section-h2{font-family:'Playfair Display',serif;font-size:clamp(22px,3.5vw,32px);font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:8px}
+.section-h2 em{font-style:italic;color:var(--gold-dark)}
+.section-sub{font-size:14px;color:var(--muted);margin-bottom:24px;max-width:580px}
+.gold-rule{height:2px;background:var(--gold);border:none;width:48px;margin-bottom:24px}
+
+/* ─── ALERT BOXES ─── */
+.alert{border-radius:var(--r);padding:14px 16px;font-size:13px;line-height:1.65;margin:14px 0;border-left:3px solid}
+.alert strong{display:block;margin-bottom:2px;font-size:13px}
+.alert-warn{background:var(--warn-bg);border-color:var(--gold);color:#7A5500}
+.alert-danger{background:var(--danger-bg);border-color:var(--danger-border);color:#800}
+.alert-ok{background:var(--ok-bg);border-color:var(--ok-border);color:#1A5A1A}
+.alert-info{background:var(--info-bg);border-color:var(--info-border);color:#1A2880}
+
+/* ─── STEP ACCORDION ─── */
+.steps-list{display:flex;flex-direction:column;gap:8px}
+.step-card{background:#fff;border:1px solid var(--border-light);border-radius:var(--r-lg);overflow:hidden;transition:box-shadow .2s}
+.step-card:hover{box-shadow:var(--shadow)}
+.step-card.open{border-color:var(--navy);box-shadow:var(--shadow-lg)}
+.step-card.step-dk{border-color:rgba(201,168,76,.4);background:var(--gold-pale)}
+.step-card.open.step-dk{border-color:var(--gold)}
+.step-trigger{width:100%;background:none;border:none;cursor:pointer;display:flex;align-items:stretch;text-align:left;font-family:'Inter',sans-serif}
+.step-num-col{width:52px;min-width:52px;display:flex;align-items:center;justify-content:center;background:var(--cream);border-right:1px solid var(--border-light);font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--muted);transition:all .2s;flex-shrink:0}
+.step-card.open .step-num-col{background:var(--navy);color:#fff;border-color:var(--navy)}
+.step-card.step-dk .step-num-col{background:var(--gold-pale);color:var(--gold-dark);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.5px}
+.step-card.open.step-dk .step-num-col{background:var(--gold);color:var(--navy)}
+.step-head{flex:1;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.step-head-left{display:flex;flex-direction:column;gap:4px}
+.phase-tag{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border-radius:3px;width:fit-content}
+.pt-dk{background:var(--navy);color:var(--gold-light)}
+.pt-you{background:var(--gold-pale);color:var(--gold-dark)}
+.pt-sheriff{background:#E8F5E9;color:#1B5E20}
+.pt-evday{background:#FFF0F0;color:#B71C1C}
+.step-title{font-size:14px;font-weight:600;color:var(--text)}
+.step-meta{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.step-timing{font-size:11px;color:var(--muted);white-space:nowrap}
+.chevron{font-size:11px;color:var(--muted);transition:transform .25s}
+.step-card.open .chevron{transform:rotate(180deg)}
+.step-body{display:none;padding:18px 18px 20px 70px;border-top:1px solid var(--border-light);font-size:13.5px;line-height:1.75;color:var(--mid)}
+.step-card.open .step-body{display:block}
+.step-body p{margin-bottom:10px}
+.step-body p:last-child{margin-bottom:0}
+.step-body ul{margin:8px 0 12px 16px}
+.step-body li{margin-bottom:5px}
+.step-body strong{font-weight:600;color:var(--text)}
+.step-body .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;margin-left:4px;vertical-align:middle}
+.tag-required{background:var(--danger-bg);color:#900;border:1px solid var(--danger-border)}
+.tag-county{background:var(--warn-bg);color:#7A5500;border:1px solid var(--warn-border)}
+.doc-list{display:flex;flex-direction:column;gap:6px;margin:10px 0 14px}
+.doc-item{display:flex;align-items:center;gap:10px;background:var(--cream);border:1px solid var(--border-light);border-radius:var(--r);padding:9px 12px;font-size:13px}
+.doc-item .doc-icon{font-size:14px;flex-shrink:0}
+.doc-item .doc-name{flex:1;font-weight:500;color:var(--navy)}
+.doc-item .doc-county{font-size:11px;color:var(--muted)}
+
+/* ─── SHERIFF TOOL ─── */
+.sheriff-tool{background:#fff;border:1px solid var(--border-light);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow)}
+.sheriff-tool-hdr{background:var(--navy);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.sheriff-tool-hdr h3{font-family:'Playfair Display',serif;font-size:18px;color:#fff}
+.county-select-wrap{display:flex;align-items:center;gap:10px}
+.county-select-wrap label{font-size:12px;color:rgba(255,255,255,.6)}
+.county-select{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-family:'Inter',sans-serif;font-size:13px;padding:7px 12px;border-radius:4px;cursor:pointer;appearance:none;-webkit-appearance:none}
+.county-select option{background:var(--navy);color:#fff}
+.sheriff-content{display:none;padding:24px}
+.sheriff-content.active{display:block}
+.sheriff-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:16px}
+.s-info-card{background:var(--cream);border:1px solid var(--border-light);border-radius:var(--r);padding:14px 16px}
+.s-info-card h4{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.s-row-info{display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:13px}
+.s-row-info:last-child{margin-bottom:0}
+.s-label{color:var(--muted);min-width:72px;flex-shrink:0}
+.s-val{color:var(--text);font-weight:500}
+.s-val a{color:var(--navy);text-decoration:none;font-weight:600}
+.s-val a:hover{color:var(--gold-dark)}
+.script-box{background:var(--navy);border-radius:var(--r);padding:14px 16px}
+.script-box h4{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold-light);margin-bottom:8px}
+.script-box p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.65;font-style:italic}
+.copy-script-btn{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:var(--navy);font-weight:700;font-size:12px;padding:7px 14px;border-radius:4px;border:none;cursor:pointer;font-family:'Inter',sans-serif;margin-top:10px;transition:background .2s}
+.copy-script-btn:hover{background:var(--gold-light)}
+
+/* ─── NOTICE GENERATOR ─── */
+.notice-generator{background:#fff;border:1px solid var(--border-light);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow)}
+.ng-hdr{background:var(--navy);padding:20px 24px}
+.ng-hdr h3{font-family:'Playfair Display',serif;font-size:18px;color:#fff;margin-bottom:4px}
+.ng-hdr p{font-size:12px;color:rgba(255,255,255,.5)}
+.ng-body{padding:24px}
+.ng-form{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.form-group input,.form-group select{padding:9px 12px;border:1px solid var(--border);border-radius:var(--r);font-family:'Inter',sans-serif;font-size:13px;color:var(--text);background:#fff;transition:border .15s}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--navy)}
+.notice-type-tabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:18px}
+.nt-tab{padding:9px 18px;font-size:13px;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;font-family:'Inter',sans-serif;transition:all .15s}
+.nt-tab:hover{color:var(--navy)}
+.nt-tab.active{color:var(--navy);border-bottom-color:var(--gold);font-weight:600}
+.notice-pane{display:none}
+.notice-pane.active{display:block}
+.notice-preview{background:var(--cream);border:1px solid var(--border);border-radius:var(--r-lg);padding:32px 36px;font-size:13.5px;line-height:1.9;color:var(--mid);position:relative;max-width:680px}
+.notice-preview::before{content:'TEMPLATE';position:absolute;top:12px;right:12px;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);background:var(--gold-pale);padding:3px 7px;border-radius:3px}
+.np-firm{text-align:center;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:4px}
+.np-title{text-align:center;font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.8px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid var(--navy)}
+.np-field{background:var(--gold-pale);border:1px dashed var(--gold);border-radius:3px;padding:1px 5px;font-style:italic;color:#7A5500;font-size:12.5px}
+.np-bold-block{text-align:center;font-weight:600;font-size:14px;padding:12px;border:1px solid var(--border);border-radius:5px;background:#fff;margin:8px 0;color:var(--navy)}
+.np-sig-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+.np-sig-line{border-bottom:1px solid var(--text);padding-bottom:2px;font-size:11px;color:var(--muted)}
+.notice-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.btn-copy-notice,.btn-dl{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;border:1px solid;transition:all .15s}
+.btn-copy-notice{background:transparent;border-color:var(--border);color:var(--mid)}
+.btn-copy-notice:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-dl{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.btn-dl:hover{background:var(--gold-light)}
+
+/* ─── COMPLIANCE CHECKPOINT ─── */
+.compliance-gate{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);border-radius:var(--r-xl);padding:28px 32px;margin:32px 0}
+.compliance-gate h3{font-family:'Playfair Display',serif;font-size:20px;color:#fff;margin-bottom:6px}
+.compliance-gate .cg-sub{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:20px}
+.compliance-checks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.cc-item{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:11px 14px;cursor:pointer;transition:all .2s}
+.cc-item:hover{background:rgba(255,255,255,.1)}
+.cc-item.checked{background:rgba(76,175,80,.12);border-color:rgba(76,175,80,.3)}
+.cc-box{width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s}
+.cc-item.checked .cc-box{background:#4CAF50;border-color:#4CAF50;color:#fff}
+.cc-text{font-size:12.5px;color:rgba(255,255,255,.75);flex:1;line-height:1.4}
+.cc-item.checked .cc-text{color:rgba(255,255,255,.45)}
+.gate-status{display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:var(--r);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);font-size:13px;color:rgba(255,255,255,.6)}
+.gate-status .gs-icon{font-size:18px}
+.gate-status.unlocked{background:rgba(76,175,80,.12);border-color:rgba(76,175,80,.3);color:rgba(255,255,255,.85)}
+
+/* ─── CHECKLIST SECTION ─── */
+.checklist-card{background:#fff;border:1px solid var(--border-light);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow)}
+.cl-hdr{background:var(--navy);padding:18px 22px;display:flex;align-items:center;justify-content:space-between}
+.cl-hdr h3{font-family:'Playfair Display',serif;font-size:18px;color:#fff}
+.progress-chip{background:rgba(255,255,255,.12);color:var(--gold-light);font-size:12px;font-weight:600;padding:4px 12px;border-radius:12px;white-space:nowrap}
+.cl-group-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:12px 22px 6px;background:var(--cream);border-bottom:1px solid var(--border-light)}
+.cl-item{display:flex;align-items:flex-start;gap:12px;padding:13px 22px;border-bottom:1px solid var(--border-light);cursor:pointer;transition:background .15s}
+.cl-item:last-child{border-bottom:none}
+.cl-item:hover{background:var(--cream)}
+.cl-item.done{opacity:.55}
+.cl-item.done .cl-text{text-decoration:line-through;color:var(--muted)}
+.cl-box{width:21px;height:21px;border:2px solid var(--border);border-radius:4px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .15s}
+.cl-item.done .cl-box{background:var(--ok-border);border-color:var(--ok-border);color:#fff}
+.cl-content{flex:1}
+.cl-text{font-size:13.5px;color:var(--text);line-height:1.45}
+.cl-note{font-size:11.5px;color:var(--muted);margin-top:2px}
+.cl-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.ct-req{background:var(--danger-bg);color:#900;border:1px solid var(--danger-border)}
+.ct-county{background:var(--warn-bg);color:#7A5500;border:1px solid var(--warn-border)}
+.ct-opt{background:var(--info-bg);color:#1A2880;border:1px solid var(--info-border)}
+
+/* ─── MISTAKES SECTION ─── */
+.mistake-grid{display:flex;flex-direction:column;gap:10px}
+.mistake-card{background:#fff;border:1px solid var(--border-light);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
+.mk-row{display:flex;align-items:flex-start}
+.mk-num{width:52px;min-width:52px;display:flex;align-items:center;justify-content:center;background:var(--danger-bg);border-right:1px solid var(--danger-border);font-size:16px;font-weight:700;color:#B71C1C;padding:16px 0;align-self:stretch}
+.mk-content{padding:14px 18px;flex:1}
+.mk-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.mk-wrong{font-size:12.5px;color:#B71C1C;margin-bottom:4px}
+.mk-right{font-size:12.5px;color:#1A6A1A}
+.mk-wrong::before{content:'✕  ';font-weight:700}
+.mk-right::before{content:'✓  ';font-weight:700}
+
+/* ─── FAQ ─── */
+.faq-dark{background:var(--navy);border-radius:var(--r-xl);overflow:hidden}
+.faq-dark-hdr{padding:24px 28px;border-bottom:1px solid rgba(255,255,255,.07)}
+.faq-dark-hdr h3{font-family:'Playfair Display',serif;font-size:22px;color:#fff}
+.faq-dark-hdr p{font-size:13px;color:rgba(255,255,255,.45);margin-top:4px}
+.faq-item{border-bottom:1px solid rgba(255,255,255,.07)}
+.faq-item:last-child{border-bottom:none}
+.faq-btn{width:100%;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:16px 28px;text-align:left;font-family:'Inter',sans-serif;transition:background .15s}
+.faq-btn:hover{background:rgba(255,255,255,.04)}
+.faq-q-mark{width:28px;height:28px;flex-shrink:0;background:rgba(201,168,76,.14);border:1px solid rgba(201,168,76,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--gold-light)}
+.faq-question{flex:1;font-size:14px;font-weight:500;color:#fff}
+.faq-plus{font-size:18px;color:var(--gold);transition:transform .2s;flex-shrink:0}
+.faq-item.open .faq-plus{transform:rotate(45deg)}
+.faq-answer{display:none;padding:0 28px 18px 70px;font-size:13px;color:rgba(255,255,255,.6);line-height:1.75}
+.faq-item.open .faq-answer{display:block}
+
+/* ─── WHEN TO CALL ─── */
+.when-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.when-card{background:#fff;border:1px solid var(--border-light);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.when-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.when-icon{font-size:20px;margin-bottom:10px}
+.when-card h4{font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:6px;line-height:1.35}
+.when-card p{font-size:12.5px;color:var(--muted);line-height:1.6}
+
+/* ─── CTA BANNER ─── */
+.cta-banner{background:var(--gold);padding:48px 24px;text-align:center}
+.cta-banner h2{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,38px);font-weight:700;color:var(--navy);margin-bottom:8px}
+.cta-banner p{font-size:15px;color:rgba(11,22,40,.7);margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto}
+.cta-banner a{display:inline-block;background:var(--navy);color:#fff;font-weight:700;font-size:14px;letter-spacing:.8px;text-transform:uppercase;padding:15px 40px;border-radius:4px;text-decoration:none;transition:background .2s}
+.cta-banner a:hover{background:var(--navy-mid)}
+
+/* ─── FOOTER ─── */
+footer{background:var(--navy);padding:48px 20px 24px;color:rgba(255,255,255,.45)}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;margin-bottom:36px}
+.footer-brand .logo-name{font-size:15px}
+.footer-brand p{font-size:12.5px;color:rgba(255,255,255,.4);margin-top:12px;line-height:1.6}
+.footer-heading{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:7px}
+.footer-links a{font-size:13px;color:rgba(255,255,255,.45);text-decoration:none;transition:color .15s}
+.footer-links a:hover{color:#fff}
+.footer-contact{display:flex;flex-direction:column;gap:7px;font-size:13px;color:rgba(255,255,255,.45)}
+.fc-row{display:flex;align-items:flex-start;gap:9px}
+.fc-row a{color:rgba(255,255,255,.45);text-decoration:none}
+.fc-row a:hover{color:#fff}
+.footer-bottom{max-width:1200px;margin:0 auto;border-top:1px solid rgba(255,255,255,.07);padding-top:18px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;font-size:11.5px}
+
+/* ─── STICKY MOBILE CTA ─── */
+.mobile-cta-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:400;background:var(--gold);padding:12px 16px;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.15)}
+.mobile-cta-bar a{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--navy);color:#fff;font-weight:700;font-size:13px;padding:11px 20px;border-radius:4px;text-decoration:none;flex:1}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .main-wrap{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .stage-btns{grid-template-columns:1fr}
+  .sheriff-info-grid{grid-template-columns:1fr}
+  .compliance-checks{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .hero{padding:40px 16px 36px}
+  .main-wrap{padding:28px 16px 100px}
+  .cta-banner{padding:40px 16px}
+  .ng-form{grid-template-columns:1fr}
+  .ng-form .full{grid-column:1}
+  .notice-preview{padding:22px 18px}
+  .np-sig-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr;gap:28px}
+  .mobile-cta-bar{display:flex}
+  .compliance-gate{padding:20px 18px}
+}
+@media(max-width:400px){
+  .hero h1{font-size:28px}
+  .stage-btns{gap:8px}
+  .tracker .tr-step{min-width:80px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  New Rule Effective Oct. 1, 2025: 10-day property hold required after eviction. Curbside disposal banned. &nbsp;
+  <a href="#process">Learn More ↓</a>
+</div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-box">dk</div>
+      <div class="logo-txt">
+        <span class="logo-name">DK Law Group</span>
+        <span class="logo-tag">Empowering Legacies</span>
+      </div>
+    </a>
+    <a href="tel:2402660291" class="hdr-cta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 12 19.79 19.79 0 011.64 3.35 2 2 0 013.62 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 8.69a16 16 0 006.29 6.29l1.01-.97a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      240-266-0291
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-label">Post-Warrant Eviction Execution · Maryland</div>
+    <h1>Eviction Execution:<br><em>What to Do After Your</em><br>Warrant Is Issued</h1>
+    <p class="hero-sub">Clear, step-by-step instructions to complete your eviction correctly and avoid delays, cancellations, or legal liability. Verified against Maryland District Court requirements.</p>
+    <div class="stage-selector">
+      <h3>Where are you in the process? <em>Start here.</em></h3>
+      <div class="stage-btns">
+        <button class="stage-btn" onclick="jumpToStage(0)">
+          <span class="stage-icon">📄</span>
+          I just received my Warrant
+        </button>
+        <button class="stage-btn" onclick="jumpToStage(1)">
+          <span class="stage-icon">📅</span>
+          My eviction is scheduled
+        </button>
+        <button class="stage-btn" onclick="jumpToStage(2)">
+          <span class="stage-icon">🚛</span>
+          I need to prepare for eviction day
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS TRACKER -->
+<div class="tracker-section" id="tracker">
+  <div class="tracker-inner">
+    <div class="tracker-title">Your Eviction Timeline — Click to jump to any step</div>
+    <div class="tracker">
+      <div class="tr-step done" onclick="scrollToSection('process')" title="Warrant Issued">
+        <div class="tr-dot">✓</div>
+        <div class="tr-label">Warrant<br>Issued</div>
+        <span class="tr-badge badge-done">Complete</span>
+      </div>
+      <div class="tr-step active" onclick="scrollToSection('process')" title="Schedule Eviction">
+        <div class="tr-dot">2</div>
+        <div class="tr-label">Schedule<br>Sheriff</div>
+        <span class="tr-badge badge-deadline">Act now</span>
+      </div>
+      <div class="tr-step" onclick="scrollToSection('notices')" title="Send Notices">
+        <div class="tr-dot">3</div>
+        <div class="tr-label">Send<br>Notices</div>
+        <span class="tr-badge badge-deadline">14-day rule</span>
+      </div>
+      <div class="tr-step" onclick="scrollToSection('compliance')" title="Compliance Check">
+        <div class="tr-dot">4</div>
+        <div class="tr-label">Compliance<br>Checkpoint</div>
+        <span class="tr-badge badge-risk">Required</span>
+      </div>
+      <div class="tr-step" onclick="scrollToSection('eviction-day')" title="Eviction Day">
+        <div class="tr-dot">5</div>
+        <div class="tr-label">Eviction<br>Day</div>
+        <span class="tr-badge badge-risk">Sheriff present</span>
+      </div>
+      <div class="tr-step" onclick="scrollToSection('post-eviction')" title="Post-Eviction">
+        <div class="tr-dot">6</div>
+        <div class="tr-label">Post-Eviction<br>Property Hold</div>
+        <span class="tr-badge badge-deadline">10-day rule</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="nav-section-label">Navigation</div>
+    <ul class="side-nav" id="side-nav">
+      <li><a href="#process"><span class="side-dot"></span>Process Steps</a></li>
+      <li><a href="#sheriff"><span class="side-dot"></span>Sheriff Scheduling</a></li>
+      <li><a href="#notices"><span class="side-dot"></span>Notice Templates</a></li>
+      <li><a href="#compliance"><span class="side-dot"></span>Compliance Check</a></li>
+      <li><a href="#eviction-day"><span class="side-dot"></span>Eviction Day</a></li>
+      <li><a href="#checklist"><span class="side-dot"></span>Day-Of Checklist</a></li>
+      <li><a href="#post-eviction"><span class="side-dot"></span>Post-Eviction Rules</a></li>
+      <li><a href="#mistakes"><span class="side-dot"></span>Common Mistakes</a></li>
+      <li><a href="#faq"><span class="side-dot"></span>FAQ</a></li>
+      <li><a href="#contact-dk"><span class="side-dot"></span>When to Call DK Law</a></li>
+    </ul>
+    <div class="sidebar-card">
+      <h4>Questions? Call us.</h4>
+      <p>DK Law Group handles every stage of the Maryland eviction process.</p>
+      <a href="tel:2402660291" class="sc-btn">📞 240-266-0291</a>
+    </div>
+    <div class="sidebar-disclaimer">
+      <strong>Disclaimer:</strong> This hub is for informational purposes only and does not constitute legal advice. Laws and requirements are subject to change.
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 1: PROCESS STEPS -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="content-section" id="process">
+      <div class="section-eyebrow">Step-by-Step Guide</div>
+      <h2 class="section-h2">Your <em>Eviction Process</em> — Expanded</h2>
+      <hr class="gold-rule">
+      <p class="section-sub">Click each step to expand full instructions, required documents, and county-specific rules. All content verified against DK Law Group's internal SOP.</p>
+
+      <div class="alert alert-danger">
+        <strong>⚠ Never attempt a self-help eviction.</strong>
+        Changing locks, removing property, or cutting utilities without a Sheriff or Constable present is illegal under Md. Real Property § 8-211, regardless of whether you hold a court order. Violations expose you to civil liability and criminal penalties.
+      </div>
+
+      <div class="steps-list">
+
+        <!-- DK Step -->
+        <div class="step-card step-dk open" data-idx="0">
+          <button class="step-trigger" onclick="toggleStep(this)">
+            <div class="step-num-col">DK</div>
+            <div class="step-head">
+              <div class="step-head-left">
+                <span class="phase-tag pt-dk">DK Law Group</span>
+                <span class="step-title">Warrant of Restitution Filed &amp; Issued</span>
+              </div>
+              <div class="step-meta">
+                <span class="step-timing">After trial is won</span>
+                <span class="chevron">▾</span>
+              </div>
+            </div>
+          </button>
+          <div class="step-body">
+            <p>DK Law Group files <strong>Form DCCV081 (Petition for Warrant of Restitution)</strong> after the trial has been won. The WOR is filed <strong>10 days after the trial date</strong>, or based on Tylertech status. For cases with a Stay of Execution, the trial docket is filed as a supporting exhibit.</p>
+            <p><strong>Filing costs:</strong> $12 + court costs of $52 (county) / $22 + $72 (Baltimore City). For FTPR cases, amounts are included on the WOR. For THO and other cases, amounts are entered separately.</p>
+            <p>Once the court signs the WOR, DK Law Group files an eviction schedule request at: <strong>survey123.arcgis.com/share/8fd470708c70460f8d0f40b316e0f7d5</strong> — the eviction schedule typically appears <strong>3–5 business days</strong> after the Sheriff receives the WOR (visible on the portal on the 6th day).</p>
+            <div class="alert alert-danger">
+              <strong>⏱ 60-Day Deadline — Critical</strong>
+              The Warrant of Restitution expires 60 days from its issuance date. If no eviction occurs within 60 days, the warrant expires, the judgment for possession is stricken, and the entire process must restart from the beginning. Act immediately.
+            </div>
+            <div class="alert alert-warn">
+              <strong>For cases with Stay of Execution:</strong> File the trial docket as a supporting exhibit when filing the WOR.
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="step-card" data-idx="1">
+          <button class="step-trigger" onclick="toggleStep(this)">
+            <div class="step-num-col">1</div>
+            <div class="step-head">
+              <div class="step-head-left">
+                <span class="phase-tag pt-you">Your Action</span>
+                <span class="step-title">Confirm Sheriff Received the WOR &amp; Get Eviction Date</span>
+              </div>
+              <div class="step-meta">
+                <span class="step-timing">Within days of WOR issuance</span>
+                <span class="chevron">▾</span>
+              </div>
+            </div>
+          </button>
+          <div class="step-body">
+            <p>DK Law Group files the eviction schedule request. Your county's Sheriff or Constable will assign a date. <strong>The schedule typically appears on the portal 6 days after DK submits the request</strong> (3–5 business days for the Sheriff to process).</p>
+            <p>You should confirm with our office once a date is set. The scheduling process differs significantly by county — see the <a href="#sheriff" style="color:var(--navy);font-weight:600">Sheriff Scheduling Tool</a> below for county-specific procedures.</p>
+            <div class="alert alert-warn">
+              <strong>Baltimore County (Essex/Towson) reminder:</strong> Call to confirm by 8:00 AM on the day of eviction. Constable Francis Ward: (410) 512-2338. Nathan Gray: (410) 512-2027. Failure to call may result in cancellation.
+            </div>
+            <p><strong>If Baltimore City WOR not appearing on portal:</strong> Email Samantha Luckhardt at <a href="mailto:Samantha.Luckhardt@baltimorecity.gov" style="color:var(--navy)">Samantha.Luckhardt@baltimorecity.gov</a> or call (410) 396-7412.</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card" data-idx="2">
+          <button class="step-trigger" onclick="toggleStep(this)">
+            <div class="step-num-col">2</div>
+            <div class="step-head">
+              <div class="step-head-left">
+                <span class="phase-tag pt-you">Your Action</span>
+                <span class="step-title">Send Required Written Notices to Tenant</span>
+              </div>
+              <div class="step-meta">
+                <span class="step-timing">14-day + 7-day requirements</span>
+                <span class="chevron">▾</span>
+              </div>
+            </div>
+          </button>
+          <div class="step-body">
+            <p>Maryland law requires two separate notices before an eviction can proceed. <strong>DK Law Group handles the preparation of these notices</strong> — but you are responsible for ensuring logistics are in place.</p>
+            <p><strong>14-Day Notice (Certified Mail)</strong> <span class="tag tag-required">Required</span></p>
+            <ul>
+              <li>Sent via <strong>certified mail</strong> to the tenant at least 14 days before the scheduled eviction date</li>
+              <li>Must include: District Court case number, date the Warrant was ordered, scheduled eviction date, and warnings regarding loss of personal property</li>
+              <li>DK Law Group prepares this and forwards to Ava for certified mail dispatch — you will receive a copy of the mailing receipt</li>
+            </ul>
+            <p><strong>7-Day Notice (Posted on Door)</strong> <span class="tag tag-required">Required</span></p>
+            <ul>
+              <li>Posted on the front door of the rental property, sent via proof server <strong>2 days before the posting date indicated in the notice</strong></li>
+              <li>Does not need to indicate the date it was posted — only the eviction date must be present</li>
+              <li>DK Law Group arranges this through our process server (Proof)</li>
+            </ul>
+            <p><strong>CC-DC-CV-123 (Baltimore County &amp; some others)</strong> <span class="tag tag-county">County-specific</span></p>
+            <ul>
+              <li>Required for <strong>all Baltimore County evictions</strong> — must be posted on tenant's door with a Sheriff's stamp</li>
+              <li>Must also be sent via first-class and certified mail</li>
+              <li>Sent together with the 7-day notice via proof server</li>
+              <li><strong>Not required</strong> for Baltimore City evictions</li>
+            </ul>
+            <p><strong>Harford County:</strong> Landlord must provide written notice 6 days before eviction via first-class mail (PS Form 3817 Certificate of Mailing), posted on front door with date-stamped photo, and electronically if tenant email/phone is known. Form CC-DC-CV-123 is required. On eviction day, landlord must present: Certificate of Mailing, dated photo of posted notice (CC-DC-CV-123), and signed Affidavit (CC-DC-CV-124).</p>
+            <div class="alert alert-info">
+              <strong>What you will receive from DK Law Group:</strong> Warrant of Restitution (from Tylerhost) · 7-day notice + proof of posting (affidavit) · 14-day notice + certified mail receipt (white slip with stamp) · Stamped Complaint (from Tylerhost). Bring all physical copies to the eviction to present to the Sheriff.
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card" data-idx="3">
+          <button class="step-trigger" onclick="toggleStep(this)">
+            <div class="step-num-col">3</div>
+            <div class="step-head">
+              <div class="step-head-left">
+                <span class="phase-tag pt-sheriff">Sheriff / Constable</span>
+                <span class="step-title">Sheriff Posts Notice at Property</span>
+              </div>
+              <div class="step-meta">
+                <span class="step-timing">Before eviction date</span>
+                <span class="chevron">▾</span>
+              </div>
+            </div>
+          </button>
+          <div class="step-body">
+            <p>After the eviction is scheduled, the Sheriff or Constable will post a notice on the rental property. You do not need to do anything for this step. The tenant may contact the Sheriff's office with the case number to inquire about the scheduled date.</p>
+            <div class="alert alert-warn">
+              <strong>Right of Redemption (FTPR &amp; THO cases):</strong> The tenant may stop the eviction at any time before the Sheriff arrives by paying all past-due rent plus court costs in full (cash, certified check, or money order only). If the tenant pays, you are legally required to cancel the eviction immediately. <strong>Call DK Law Group and the Sheriff's office the same day.</strong>
+            </div>
+            <div class="alert alert-info">
+              <strong>Eviction Cancellations:</strong> If the eviction is cancelled for any reason (payment, settlement, weather), DK Law Group must be notified immediately. We will call the Sheriff's office and District Court to cancel the filing. Weather cancellations (temperature at or below 32°F, blizzard, hurricane, or excessive heat warnings) are rescheduled by the court.
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-card" data-idx="4">
+          <button class="step-trigger" onclick="toggleStep(this)">
+            <div class="step-num-col">4</div>
+            <div class="step-head">
+              <div class="step-head-left">
+                <span class="phase-tag pt-you">Your Action</span>
+                <span class="step-title">Prepare for Eviction Day — Logistics</span>
+              </div>
+              <div class="step-meta">
+                <span class="step-timing">1–2 days before</span>
+                <span class="chevron">▾</span>
+              </div>
+            </div>
+          </button>
+          <div class="step-body">
+            <p>The Sheriff's Office requires the following to be ready and on-site at the scheduled time. Failure to have sufficient personnel and equipment <strong>will result in postponement of the eviction:</strong></p>
+            <div class="doc-list">
+              <div class="doc-item"><span class="doc-icon">👷</span><span class="doc-name">Eviction crew — sufficient to complete removal in 3–4 hours</span><span class="doc-county">Minimum 2 people for "live" evictions (tenant present)</span></div>
+              <div class="doc-item"><span class="doc-icon">🚛</span><span class="doc-name">Moving truck</span></div>
+              <div class="doc-item"><span class="doc-icon">📦</span><span class="doc-name">Cardboard boxes</span></div>
+              <div class="doc-item"><span class="doc-icon">🗑</span><span class="doc-name">Construction-grade trash bags</span></div>
+              <div class="doc-item"><span class="doc-icon">🔑</span><span class="doc-name">New lock and keys (to change locks immediately after)</span></div>
+              <div class="doc-item"><span class="doc-icon">🔧</span><span class="doc-name">Locksmith (on standby or pre-scheduled) + any tools for disassembling large items</span></div>
+              <div class="doc-item"><span class="doc-icon">📋</span><span class="doc-name">All court documents (printed physical copies)</span><span class="doc-county">WOR · 7-day notice · 14-day notice · affidavit · stamped complaint</span></div>
+            </div>
+            <div class="alert alert-danger">
+              <strong>No document = No eviction.</strong> The Sheriff may refuse to proceed if required documents are missing or if your crew is insufficient. Overstaff — never understaff.
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step-card" data-idx="5">
+          <button class="step-trigger" onclick="toggleStep(this)">
+            <div class="step-num-col">5</div>
+            <div class="step-head">
+              <div class="step-head-left">
+                <span class="phase-tag pt-evday">Eviction Day</span>
+                <span class="step-title">Attend the Eviction with Sheriff / Constable Present</span>
+              </div>
+              <div class="step-meta">
+                <span class="step-timing">Day of eviction</span>
+                <span class="chevron">▾</span>
+              </div>
+            </div>
+          </button>
+          <div class="step-body">
+            <p><strong>Arrive at or before the scheduled time.</strong> The Sheriff/Constable will not wait. Missing your time slot may result in rescheduling and loss of the scheduling fee.</p>
+            <ul>
+              <li>The Deputy/Constable's role is to maintain peace — you and your crew handle all physical removal</li>
+              <li>All tenant belongings must be removed and placed at the <strong>front or rear of the property</strong> — they must remain there for <strong>24 hours</strong> before being treated as abandoned (Baltimore County) or held for <strong>10 days</strong> (see Post-Eviction section)</li>
+              <li>If the tenant is not present, the Sheriff posts a notice confirming repossession</li>
+              <li><strong>Pets:</strong> The Sheriff must arrange immediate transport to an animal shelter — you will be notified of where the pet was taken</li>
+              <li><strong>Change locks immediately</strong> the moment the Sheriff declares repossession complete — not before</li>
+            </ul>
+            <div class="alert alert-danger">
+              <strong>Critical: Do not act before the Sheriff declares repossession complete.</strong>
+              Entering the property, removing belongings, or changing locks before this declaration — even with a signed Warrant in hand — constitutes an illegal self-help eviction under Md. Real Property § 8-211.
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="step-card" data-idx="6" id="post-eviction-step">
+          <button class="step-trigger" onclick="toggleStep(this)">
+            <div class="step-num-col">6</div>
+            <div class="step-head">
+              <div class="step-head-left">
+                <span class="phase-tag pt-you">Your Action</span>
+                <span class="step-title">Post-Eviction Property Rules — 10-Day Hold (New Law)</span>
+              </div>
+              <div class="step-meta">
+                <span class="step-timing">After eviction — Oct. 1, 2025 law</span>
+                <span class="chevron">▾</span>
+              </div>
+            </div>
+          </button>
+          <div class="step-body">
+            <div class="alert alert-danger">
+              <strong>⚠ New Law — Effective October 1, 2025</strong>
+              Maryland has banned "curbside" disposal of tenant property. The 10-Day Hold Rule is now in effect statewide.
+            </div>
+            <p><strong>The 10-Day Hold Rule:</strong></p>
+            <ul>
+              <li><strong>Secure the belongings:</strong> You must leave the tenant's property inside the premises or move it to secure storage — it cannot be placed on the curb and left</li>
+              <li><strong>Hold for 10 days:</strong> You must allow the tenant reasonable access to reclaim essential items for <strong>10 days post-eviction</strong></li>
+              <li><strong>Vacancy impact:</strong> You effectively cannot re-rent the unit during this hold period</li>
+              <li><strong>After 10 days:</strong> Items not reclaimed may be treated as abandoned and disposed of</li>
+            </ul>
+            <p><strong>Baltimore County (prior rule, still applies for 24-hour curbside):</strong> Belongings placed at front/rear of property must remain there for 24 hours. Contact DK Law Group for current application in light of the October 2025 law.</p>
+            <div class="alert alert-info">
+              <strong>Document everything.</strong> Photograph the entire interior immediately after repossession — before any cleaning or repairs. This is critical for any future security deposit disputes or litigation.
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /steps-list -->
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 2: SHERIFF SCHEDULING TOOL -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="content-section" id="sheriff">
+      <div class="section-eyebrow">County Contacts</div>
+      <h2 class="section-h2">Sheriff <em>Scheduling Tool</em></h2>
+      <hr class="gold-rule">
+      <p class="section-sub">Select your county for exact scheduling instructions, contacts, and a script of what to say.</p>
+      <div class="sheriff-tool">
+        <div class="sheriff-tool-hdr">
+          <h3>County Scheduling Information</h3>
+          <div class="county-select-wrap">
+            <label for="county-sel">Select county:</label>
+            <select class="county-select" id="county-sel" onchange="showCounty(this.value)">
+              <option value="">— Choose County —</option>
+              <option value="balt-city">Baltimore City</option>
+              <option value="balt-county">Baltimore County (Essex/Towson)</option>
+              <option value="montgomery">Montgomery County</option>
+              <option value="pg">Prince George's County</option>
+              <option value="anne-arundel">Anne Arundel County</option>
+              <option value="howard">Howard County</option>
+              <option value="harford">Harford County</option>
+            </select>
+          </div>
+        </div>
+        <div id="county-placeholder" style="padding:28px 24px;text-align:center;color:var(--muted);font-size:14px;">
+          Select your county above to see scheduling instructions, contacts, and required documents.
+        </div>
+
+        <div id="sc-balt-city" class="sheriff-content">
+          <div class="sheriff-info-grid">
+            <div class="s-info-card">
+              <h4>Contact Information</h4>
+              <div class="s-row-info"><span class="s-label">Portal:</span><span class="s-val"><a href="https://baltimorecitysheriff.gov/eviction-status/" target="_blank">baltimorecitysheriff.gov</a></span></div>
+              <div class="s-row-info"><span class="s-label">Phone:</span><span class="s-val"><a href="tel:4103967412">(410) 396-7412</a></span></div>
+              <div class="s-row-info"><span class="s-label">Email:</span><span class="s-val"><a href="mailto:Samantha.Luckhardt@baltimorecity.gov">Samantha.Luckhardt@baltimorecity.gov</a></span></div>
+              <div class="s-row-info"><span class="s-label">Method:</span><span class="s-val">Online portal first; email if not on portal</span></div>
+            </div>
+            <div class="s-info-card">
+              <h4>Notice Requirements</h4>
+              <div class="s-row-info"><span class="s-label">14-day:</span><span class="s-val">Certified mail ✓</span></div>
+              <div class="s-row-info"><span class="s-label">7-day:</span><span class="s-val">Posted on door via proof server ✓</span></div>
+              <div class="s-row-info"><span class="s-label">CV-123:</span><span class="s-val" style="color:var(--ok-border);font-weight:700">NOT required for Baltimore City</span></div>
+              <div class="s-row-info"><span class="s-label">WOR filing:</span><span class="s-val">$22 + $72 court costs</span></div>
+            </div>
+          </div>
+          <div class="script-box">
+            <h4>What to say when calling</h4>
+            <p>"Hello, we're calling on behalf of DK Law Group. I'm calling to ask if you have received the Ordered Warrant of Restitution for Case No. [CASE NUMBER] at [PROPERTY ADDRESS], and to schedule the eviction."</p>
+            <button class="copy-script-btn" onclick="copyScript(this)">⎘ Copy script</button>
+          </div>
+        </div>
+
+        <div id="sc-balt-county" class="sheriff-content">
+          <div class="sheriff-info-grid">
+            <div class="s-info-card">
+              <h4>Essex Constables</h4>
+              <div class="s-row-info"><span class="s-label">Robert Gaines:</span><span class="s-val"><a href="tel:4105122331">(410) 512-2331</a></span></div>
+              <div class="s-row-info"><span class="s-label">Francis Ward:</span><span class="s-val"><a href="tel:4105122338">(410) 512-2338</a></span></div>
+              <div class="s-row-info"><span class="s-label">Nathan Gray:</span><span class="s-val"><a href="tel:4105122027">(410) 512-2027</a></span></div>
+              <div class="s-row-info"><span class="s-label">Email:</span><span class="s-val"><a href="mailto:robert.gaines@mdcourts.gov">robert.gaines@mdcourts.gov</a></span></div>
+              <div class="s-row-info"><span class="s-label">⚠ Day-of:</span><span class="s-val" style="color:#B71C1C;font-weight:600">Call by 8:00 AM or eviction cancelled</span></div>
+            </div>
+            <div class="s-info-card">
+              <h4>Notice Requirements</h4>
+              <div class="s-row-info"><span class="s-label">14-day:</span><span class="s-val">Certified mail ✓</span></div>
+              <div class="s-row-info"><span class="s-label">7-day:</span><span class="s-val">Posted on door ✓</span></div>
+              <div class="s-row-info"><span class="s-label">CV-123:</span><span class="s-val" style="color:#B71C1C;font-weight:700">REQUIRED — must have Sheriff's stamp</span></div>
+              <div class="s-row-info"><span class="s-label">CV-124:</span><span class="s-val" style="color:#B71C1C;font-weight:700">REQUIRED — completed/signed by process server only</span></div>
+              <div class="s-row-info"><span class="s-label">Method:</span><span class="s-val">Email all constables listed; cc all</span></div>
+            </div>
+          </div>
+          <div class="alert alert-danger" style="margin:0 0 14px">
+            <strong>Baltimore County: Day-of Call Requirement</strong>
+            You must call Constable Francis Ward (410-512-2338) or Nathan Gray (410-512-2027) by 8:00 AM on the morning of eviction to confirm. If no call is received, the Constable will not appear.
+          </div>
+          <div class="script-box">
+            <h4>Email subject line format</h4>
+            <p>"Eviction Schedule Request: [CASE NUMBER] — [PROPERTY ADDRESS]"<br><br>Include: Case Number, Date Warrant Ordered, Property Address. CC all constables listed above.</p>
+            <button class="copy-script-btn" onclick="copyScript(this)">⎘ Copy format</button>
+          </div>
+        </div>
+
+        <div id="sc-montgomery" class="sheriff-content">
+          <div class="sheriff-info-grid">
+            <div class="s-info-card">
+              <h4>Contact Information</h4>
+              <div class="s-row-info"><span class="s-label">Phone:</span><span class="s-val"><a href="tel:2407777130">(240) 777-7130</a></span></div>
+              <div class="s-row-info"><span class="s-label">Best time:</span><span class="s-val">Weekdays, 10 AM – 2 PM</span></div>
+              <div class="s-row-info"><span class="s-label">Time slots:</span><span class="s-val">10:00 AM, 11:30 AM, or 1:00 PM</span></div>
+            </div>
+            <div class="s-info-card">
+              <h4>Notice Requirements</h4>
+              <div class="s-row-info"><span class="s-label">Notice:</span><span class="s-val" style="color:#B71C1C;font-weight:700">14-day advance notice + notify DHCA simultaneously</span></div>
+              <div class="s-row-info"><span class="s-label">Effective:</span><span class="s-val">December 15, 2025</span></div>
+              <div class="s-row-info"><span class="s-label">DHCA:</span><span class="s-val">Must be notified at same time as tenant</span></div>
+            </div>
+          </div>
+          <div class="script-box">
+            <h4>What to say when calling</h4>
+            <p>"Hello, we're calling on behalf of DK Law Group to schedule an eviction. Case Number: [CASE NUMBER]. Property Address: [ADDRESS]. Warrant of Restitution was ordered on [DATE]. Can we schedule an eviction date?"</p>
+            <button class="copy-script-btn" onclick="copyScript(this)">⎘ Copy script</button>
+          </div>
+        </div>
+
+        <div id="sc-pg" class="sheriff-content">
+          <div class="sheriff-info-grid">
+            <div class="s-info-card">
+              <h4>Contact Information</h4>
+              <div class="s-row-info"><span class="s-label">Heidi Mendoza:</span><span class="s-val"><a href="mailto:HGMendoza@co.pg.md.us">HGMendoza@co.pg.md.us</a></span></div>
+              <div class="s-row-info"><span class="s-label">Direct:</span><span class="s-val"><a href="tel:3017806135">(301) 780-6135</a></span></div>
+              <div class="s-row-info"><span class="s-label">Main:</span><span class="s-val"><a href="tel:3017808600">(301) 780-8600</a></span></div>
+              <div class="s-row-info"><span class="s-label">LT Email:</span><span class="s-val"><a href="mailto:SheriffLT@co.pg.md.us">SheriffLT@co.pg.md.us</a></span></div>
+              <div class="s-row-info"><span class="s-label">CC:</span><span class="s-val"><a href="mailto:WGDyer@co.pg.md.us">WGDyer@co.pg.md.us</a></span></div>
+            </div>
+            <div class="s-info-card">
+              <h4>Notice Requirements</h4>
+              <div class="s-row-info"><span class="s-label">Standard:</span><span class="s-val">6-day notice required</span></div>
+              <div class="s-row-info"><span class="s-label">Service fee:</span><span class="s-val">$60 per tenant (all occupants included)</span></div>
+              <div class="s-row-info"><span class="s-label">Note:</span><span class="s-val">CC all constables when requesting schedule</span></div>
+            </div>
+          </div>
+          <div class="script-box">
+            <h4>Email format</h4>
+            <p>Subject: "Eviction Schedule Request: [CASE NUMBER] — [ADDRESS]"<br><br>CC: All constables listed above. Include: Case Number, Date Warrant Ordered, Property Address.</p>
+            <button class="copy-script-btn" onclick="copyScript(this)">⎘ Copy format</button>
+          </div>
+        </div>
+
+        <div id="sc-anne-arundel" class="sheriff-content">
+          <div class="sheriff-info-grid">
+            <div class="s-info-card">
+              <h4>Contact — Phone Only</h4>
+              <div class="s-row-info"><span class="s-label">Deputy Bova:</span><span class="s-val"><a href="tel:4437580401">(443) 758-0401</a> — Zip 21225</span></div>
+              <div class="s-row-info"><span class="s-label">Constable:</span><span class="s-val"><a href="tel:4433360179">(443) 336-0179</a> — Zip 21113</span></div>
+              <div class="s-row-info"><span class="s-label">Main:</span><span class="s-val"><a href="tel:4102221490">(410) 222-1490</a></span></div>
+              <div class="s-row-info"><span class="s-label">⚠ Note:</span><span class="s-val">No email scheduling — phone only</span></div>
+            </div>
+            <div class="s-info-card">
+              <h4>Notice Requirements</h4>
+              <div class="s-row-info"><span class="s-label">Notice:</span><span class="s-val">6-day advance notice</span></div>
+              <div class="s-row-info"><span class="s-label">Service fee:</span><span class="s-val">$40 per tenant (WOR filing)</span></div>
+              <div class="s-row-info"><span class="s-label">FTPR filing:</span><span class="s-val">No optional service fee</span></div>
+            </div>
+          </div>
+          <div class="script-box">
+            <h4>What to say when calling</h4>
+            <p>"Hello, we're calling on behalf of DK Law Group. We'd like to schedule an eviction for Case No. [CASE NUMBER] at [PROPERTY ADDRESS]. The Warrant of Restitution was ordered on [DATE]."</p>
+            <button class="copy-script-btn" onclick="copyScript(this)">⎘ Copy script</button>
+          </div>
+        </div>
+
+        <div id="sc-howard" class="sheriff-content">
+          <div class="sheriff-info-grid">
+            <div class="s-info-card">
+              <h4>Contact Information</h4>
+              <div class="s-row-info"><span class="s-label">Phone:</span><span class="s-val"><a href="tel:4103134222">(410) 313-4222</a></span></div>
+              <div class="s-row-info"><span class="s-label">Website:</span><span class="s-val"><a href="https://www.howardcountymd.gov/sheriffs-office" target="_blank">howardcountymd.gov</a></span></div>
+              <div class="s-row-info"><span class="s-label">WoR fee:</span><span class="s-val">$40 per tenant</span></div>
+            </div>
+            <div class="s-info-card">
+              <h4>Eviction Day Requirements</h4>
+              <div class="s-row-info"><span class="s-label">Crew:</span><span class="s-val">Sufficient to complete in 3–4 hours</span></div>
+              <div class="s-row-info"><span class="s-label">⚠ Caution:</span><span class="s-val" style="color:#B71C1C;">Insufficient crew = rescheduled eviction</span></div>
+            </div>
+          </div>
+          <div class="script-box">
+            <h4>What to say when calling</h4>
+            <p>"Hello, calling on behalf of DK Law Group. I'd like to schedule an eviction for Case No. [CASE NUMBER], property at [ADDRESS]. The Warrant was ordered on [DATE]. Can you check if you've received the WOR?"</p>
+            <button class="copy-script-btn" onclick="copyScript(this)">⎘ Copy script</button>
+          </div>
+        </div>
+
+        <div id="sc-harford" class="sheriff-content">
+          <div class="sheriff-info-grid">
+            <div class="s-info-card">
+              <h4>Contact Information</h4>
+              <div class="s-row-info"><span class="s-label">Phone:</span><span class="s-val"><a href="tel:4108365448">(410) 836-5448</a> → Option 1, leave details</span></div>
+              <div class="s-row-info"><span class="s-label">Schedule:</span><span class="s-val">Tues–Thurs, 10:00 AM and 1:00 PM only</span></div>
+              <div class="s-row-info"><span class="s-label">Website:</span><span class="s-val"><a href="https://harfordsheriff.org/services/evictions/" target="_blank">harfordsheriff.org/services/evictions</a></span></div>
+            </div>
+            <div class="s-info-card">
+              <h4>Notice Requirements (Strict)</h4>
+              <div class="s-row-info"><span class="s-label">Notice:</span><span class="s-val">6 days before eviction — all 3 methods required</span></div>
+              <div class="s-row-info"><span class="s-label">Mail:</span><span class="s-val">First-class + PS Form 3817 certificate</span></div>
+              <div class="s-row-info"><span class="s-label">Door:</span><span class="s-val">Date-stamped photo required (CV-123)</span></div>
+              <div class="s-row-info"><span class="s-label">Affidavit:</span><span class="s-val" style="color:#B71C1C;font-weight:700">CC-DC-CV-124 required — must be presented to deputy day-of</span></div>
+              <div class="s-row-info"><span class="s-label">WOR fee:</span><span class="s-val">$12 + $52 (county) — 2+ defendants: $17 + $57</span></div>
+            </div>
+          </div>
+          <div class="script-box">
+            <h4>What to leave in voicemail (Option 1)</h4>
+            <p>"Hello, this is [NAME] calling on behalf of DK Law Group regarding Case No. [CASE NUMBER] at [PROPERTY ADDRESS]. We'd like to schedule an eviction for a Warrant of Restitution ordered on [DATE]. Please return our call at 240-266-0291. Thank you."</p>
+            <button class="copy-script-btn" onclick="copyScript(this)">⎘ Copy script</button>
+          </div>
+        </div>
+      </div><!-- /sheriff-tool -->
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 3: NOTICE TEMPLATES -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="content-section" id="notices">
+      <div class="section-eyebrow">Sample Forms</div>
+      <h2 class="section-h2">Notice <em>Templates</em></h2>
+      <hr class="gold-rule">
+      <p class="section-sub">DK Law Group prepares all required notices on your behalf. These templates are provided for your reference only. All highlighted fields will be completed from your Warrant of Restitution.</p>
+      <div class="alert alert-warn">
+        <strong>Templates only — do not send without DK Law Group review.</strong> These are provided for informational purposes. The actual notices are prepared by DK Law Group and verified against the Warrant of Restitution before sending.
+      </div>
+      <div class="notice-generator">
+        <div class="ng-hdr">
+          <h3>Notice Reference Templates</h3>
+          <p>View the format used for each required notice. Fields shown in gold indicate where case-specific details are inserted.</p>
+        </div>
+        <div class="ng-body">
+          <div class="notice-type-tabs">
+            <button class="nt-tab active" onclick="switchNoticeTab(this,'nt-14day')">14-Day Notice (Certified Mail)</button>
+            <button class="nt-tab" onclick="switchNoticeTab(this,'nt-7day')">7-Day Notice (Door Posting)</button>
+            <button class="nt-tab" onclick="switchNoticeTab(this,'nt-cancel')">Eviction Cancellation</button>
+          </div>
+          <div id="nt-14day" class="notice-pane active">
+            <div class="notice-preview">
+              <div class="np-firm">DK Law Group — Eviction Notice</div>
+              <div class="np-title">14-Day Notice of Scheduled Eviction</div>
+              <p>Date: <span class="np-field">[ Date Sent — must be 14+ days before eviction ]</span></p>
+              <p>To: <span class="np-field">[ Tenant Full Name(s) ]</span><br>
+              Property: <span class="np-field">[ Full Rental Property Address ]</span></p>
+              <p>Court Case Number: <span class="np-field">[ Case Number ]</span></p>
+              <p>Dear <span class="np-field">[ Tenant Name ]</span>,</p>
+              <p>This notice is to inform you that the District Court of Maryland, <span class="np-field">[ County ]</span> District, has issued a Warrant of Restitution in Case No. <span class="np-field">[ Case Number ]</span>, ordered on <span class="np-field">[ Date WOR Was Ordered ]</span>.</p>
+              <p>A repossession/eviction of the above-referenced property has been scheduled for:</p>
+              <div class="np-bold-block"><span class="np-field">[ Day, Month Date, Year ]</span> &nbsp;at approximately&nbsp; <span class="np-field">[ Time ]</span></div>
+              <p>You may stop this eviction before the scheduled date by paying all rent determined to be due by the court, plus court costs, in full. Payment must be by cash, certified check, or money order. You must exercise this right before the Sheriff or Constable arrives on the scheduled date.</p>
+              <p style="font-size:12px;color:var(--muted);">You could lose personal belongings remaining inside your home at the time of eviction. Under Maryland law effective October 1, 2025, landlords must hold personal belongings for 10 days post-eviction and allow reasonable access to reclaim them. For legal assistance, call 211 or the District Court Help Center at (410) 260-1392.</p>
+              <div class="np-sig-grid">
+                <div class="np-sig-line">Signature</div>
+                <div class="np-sig-line">Printed Name</div>
+                <div class="np-sig-line">Date</div>
+              </div>
+              <p style="margin-top:12px;font-size:12px;color:var(--muted);">DK Law Group · diana@dklawmd.com · (240) 266-0291</p>
+            </div>
+            <div class="notice-actions">
+              <button class="btn-copy-notice" onclick="this.textContent='✓ Copied';setTimeout(()=>this.textContent='⎘ Copy text',2000)">⎘ Copy text</button>
+            </div>
+          </div>
+          <div id="nt-7day" class="notice-pane">
+            <div class="notice-preview">
+              <div class="np-firm">DK Law Group — Eviction Notice</div>
+              <div class="np-title">7-Day Notice of Scheduled Eviction<br><span style="font-size:13px;font-family:'Inter',sans-serif;font-weight:400;letter-spacing:0">(Posted on Door — Via Proof Server)</span></div>
+              <p>Case Number: <span class="np-field">[ Case Number ]</span></p>
+              <p>To: <span class="np-field">[ Tenant Full Name(s) ]</span> and All Occupants<br>
+              Property: <span class="np-field">[ Full Property Address ]</span></p>
+              <p>Pursuant to the Warrant of Restitution issued by the District Court of Maryland in the above case, you are hereby notified that an eviction has been scheduled for the above property.</p>
+              <p><strong>Date of Warrant Ordered:</strong> <span class="np-field">[ Date ]</span></p>
+              <p><strong>Scheduled Eviction Date:</strong></p>
+              <div class="np-bold-block"><span class="np-field">[ Eviction Date ]</span></div>
+              <p>You must vacate the premises on or before the above date. The Sheriff/Constable will enforce this order. Failure to vacate will result in your removal and the removal of your belongings.</p>
+              <p style="font-size:12px;color:var(--muted);">Under Maryland law, your personal property will be held for a period of 10 days following the eviction. You will be allowed reasonable access to retrieve essential items during this period.</p>
+              <p style="font-size:12px;color:var(--muted);">Posted by: Process Server &nbsp;|&nbsp; DK Law Group, diana@dklawmd.com, (240) 266-0291</p>
+            </div>
+            <div class="notice-actions">
+              <button class="btn-copy-notice" onclick="this.textContent='✓ Copied';setTimeout(()=>this.textContent='⎘ Copy text',2000)">⎘ Copy text</button>
+            </div>
+          </div>
+          <div id="nt-cancel" class="notice-pane">
+            <div class="notice-preview">
+              <div class="np-firm">DK Law Group — Eviction Cancellation</div>
+              <div class="np-title">Notice of Eviction Cancellation</div>
+              <p>Date: <span class="np-field">[ Date ]</span><br>
+              To: Sheriff's/Constable's Office — <span class="np-field">[ County ]</span><br>
+              CC: District Court of Maryland — <span class="np-field">[ District ]</span><br>
+              Re: Case No. <span class="np-field">[ Case Number ]</span> / Property: <span class="np-field">[ Address ]</span></p>
+              <p>Dear Sheriff's/Constable's Office,</p>
+              <p>Please be advised that the eviction scheduled for <span class="np-field">[ Date &amp; Time ]</span> at the above-referenced property is hereby <strong>CANCELLED</strong> effective immediately.</p>
+              <p>Reason: <span class="np-field">[ e.g., Tenant exercised right of redemption and paid all amounts owed in full on [DATE]. ]</span></p>
+              <p>Please confirm receipt of this cancellation at your earliest convenience. DK Law Group will also notify the District Court of this cancellation.</p>
+              <div class="np-sig-grid">
+                <div class="np-sig-line">Signature</div>
+                <div class="np-sig-line">Printed Name</div>
+                <div class="np-sig-line">Date</div>
+              </div>
+              <p style="margin-top:12px;font-size:12px;color:var(--muted);">DK Law Group · diana@dklawmd.com · (240) 266-0291 · (240) 266-0781 (fax)</p>
+            </div>
+            <div class="notice-actions">
+              <button class="btn-copy-notice" onclick="this.textContent='✓ Copied';setTimeout(()=>this.textContent='⎘ Copy text',2000)">⎘ Copy text</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 4: COMPLIANCE CHECKPOINT -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="content-section" id="compliance">
+      <div class="section-eyebrow">Required Before Proceeding</div>
+      <h2 class="section-h2"><em>Compliance</em> Checkpoint</h2>
+      <hr class="gold-rule">
+      <p class="section-sub">Confirm all requirements are met before eviction day. A failed eviction means rescheduling, additional fees, and potential warrant expiration.</p>
+      <div class="compliance-gate">
+        <h3>Before You Proceed to Eviction Day</h3>
+        <p class="cg-sub">Check each item. The gate opens when all critical items are confirmed.</p>
+        <div class="compliance-checks" id="compliance-checks">
+          <div class="cc-item" onclick="toggleCC(this)"><div class="cc-box"></div><div class="cc-text">14-day notice sent via certified mail at least 14 days before eviction date</div></div>
+          <div class="cc-item" onclick="toggleCC(this)"><div class="cc-box"></div><div class="cc-text">Certified mail receipt (white slip with stamp) received and on file</div></div>
+          <div class="cc-item" onclick="toggleCC(this)"><div class="cc-box"></div><div class="cc-text">7-day notice posted on front door via proof server (with Affidavit of Service)</div></div>
+          <div class="cc-item" onclick="toggleCC(this)"><div class="cc-box"></div><div class="cc-text">CC-DC-CV-123 posted and stamped (Baltimore County &amp; required counties only)</div></div>
+          <div class="cc-item" onclick="toggleCC(this)"><div class="cc-box"></div><div class="cc-text">Eviction crew arranged — sufficient to complete in 3–4 hours</div></div>
+          <div class="cc-item" onclick="toggleCC(this)"><div class="cc-box"></div><div class="cc-text">Moving truck, boxes, and trash bags confirmed and on standby</div></div>
+          <div class="cc-item" onclick="toggleCC(this)"><div class="cc-box"></div><div class="cc-text">New locks purchased and locksmith/keys confirmed for day-of access</div></div>
+          <div class="cc-item" onclick="toggleCC(this)"><div class="cc-box"></div><div class="cc-text">All printed court documents ready to present to Sheriff/Constable</div></div>
+        </div>
+        <div class="gate-status" id="gate-status">
+          <span class="gs-icon">🔒</span>
+          <span id="gate-text">Complete all items above to proceed to Eviction Day</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 5: EVICTION DAY GUIDE -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="content-section" id="eviction-day">
+      <div class="section-eyebrow">Day-Of Guide</div>
+      <h2 class="section-h2">Eviction Day <em>Playbook</em></h2>
+      <hr class="gold-rule">
+      <p class="section-sub">What to expect, what to do, and what can get the eviction cancelled.</p>
+      <div class="alert alert-danger">
+        <strong>Eviction may be cancelled if:</strong> You don't have sufficient crew or equipment · You arrive late · Required documents are missing · Temperature is at or below 32°F, or NWS issues a winter storm, hurricane, or excessive heat warning · The tenant pays all amounts owed before the Sheriff arrives
+      </div>
+      <div class="when-grid" style="margin-top:20px">
+        <div class="when-card"><div class="when-icon">⏰</div><h4>Arrive on time — or before</h4><p>The Constable/Sheriff will not wait past the time slot. Call Baltimore County Constables by 8:00 AM on the day of eviction.</p></div>
+        <div class="when-card"><div class="when-icon">👷</div><h4>Bring adequate crew</h4><p>Minimum 2 people for "live" evictions (tenant present). Enough to clear the unit in 3–4 hours (Harford) or ~2 hours (most others).</p></div>
+        <div class="when-card"><div class="when-icon">📋</div><h4>Present your documents</h4><p>Hand printed copies to the Deputy/Constable: WOR · 7-day notice + affidavit · 14-day notice + mail receipt · Stamped complaint · CV-123/124 if required.</p></div>
+        <div class="when-card"><div class="when-icon">🔑</div><h4>Change locks immediately</h4><p>The moment the Sheriff declares repossession complete — not a minute before. Have your locksmith ready on-site.</p></div>
+        <div class="when-card"><div class="when-icon">📷</div><h4>Document everything</h4><p>Photograph the entire property before, during, and after removal. Critical for security deposit claims and future litigation.</p></div>
+        <div class="when-card"><div class="when-icon">🤝</div><h4>Stay professional</h4><p>The Sheriff controls the scene. Do not engage in arguments with the tenant. Confrontation can halt the eviction. Focus on logistics only.</p></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 6: CHECKLIST -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="content-section" id="checklist">
+      <div class="section-eyebrow">Interactive</div>
+      <h2 class="section-h2">Day-Of <em>Checklist</em></h2>
+      <hr class="gold-rule">
+      <div class="checklist-card">
+        <div class="cl-hdr">
+          <h3>Eviction Day Readiness</h3>
+          <span class="progress-chip" id="cl-prog">0 of 12 complete</span>
+        </div>
+        <div class="cl-group-label">Documents — Bring physical printed copies</div>
+        <div class="cl-item" onclick="clk(this)"><div class="cl-box"></div><div class="cl-content"><div class="cl-text">Signed Warrant of Restitution (from Tylerhost)</div></div><span class="cl-tag ct-req">Required</span></div>
+        <div class="cl-item" onclick="clk(this)"><div class="cl-box"></div><div class="cl-content"><div class="cl-text">7-Day Notice with Affidavit of Service (from Proof)</div></div><span class="cl-tag ct-req">Required</span></div>
+        <div class="cl-item" onclick="clk(this)"><div class="cl-box"></div><div class="cl-content"><div class="cl-text">14-Day Notice with Certified Mail Receipt (white slip with stamp)</div></div><span class="cl-tag ct-req">Required</span></div>
+        <div class="cl-item" onclick="clk(this)"><div class="cl-box"></div><div class="cl-content"><div class="cl-text">Stamped Complaint (from Tylerhost)</div></div><span class="cl-tag ct-req">Required</span></div>
+        <div class="cl-item" onclick="clk(this)"><div class="cl-box"></div><div class="cl-content"><div class="cl-text">CC-DC-CV-123 posted &amp; stamped + CC-DC-CV-124 (Affidavit completed by process server)</div><div class="cl-note">Baltimore County, Harford County, and required counties only</div></div><span class="cl-tag ct-county">County Only</span></div>
+        <div class="cl-group-label">Crew &amp; Equipment</div>
+        <div class="cl-item" onclick="clk(this)"><div class="cl-box"></div><div class="cl-content"><div class="cl-text">Moving crew — sufficient to complete in 3–4 hours; minimum 2 for live eviction</div></div><span class="cl-tag ct-req">Required</span></div>
+        <div class="cl-item" onclick="clk(this)"><div class="cl-box"></div><div class="cl-content"><div class="cl-text">Moving truck confirmed and on-site</div></div><span class="cl-tag ct-req">Required</span></div>
+        <div class="cl-item" onclick="clk(this)"><div class="cl-box"></div><div class="cl-content"><div class="cl-text">Cardboard boxes and construction-grade trash bags</div></div><span class="cl-tag ct-req">Required</span></div>
+        <div class="cl-item" onclick="clk(this)"><div class="cl-box"></div><div class="cl-content"><div class="cl-text">New lock and keys — ready to install immediately</div></div><span class="cl-tag ct-req">Required</span></div>
+        <div class="cl-item" onclick="clk(this)"><div class="cl-box"></div><div class="cl-content"><div class="cl-text">Locksmith on-site or on standby + tools for disassembling large items if needed</div></div><span class="cl-tag ct-req">Required</span></div>
+        <div class="cl-group-label">Day-Of Actions</div>
+        <div class="cl-item" onclick="clk(this)"><div class="cl-box"></div><div class="cl-content"><div class="cl-text">Called Constable by 8:00 AM to confirm (Baltimore County/Essex/Towson ONLY)</div><div class="cl-note">Francis Ward: (410) 512-2338 · Nathan Gray: (410) 512-2027</div></div><span class="cl-tag ct-county">Balt. County</span></div>
+        <div class="cl-item" onclick="clk(this)"><div class="cl-box"></div><div class="cl-content"><div class="cl-text">Camera or phone ready to photograph the property before, during, and after removal</div></div><span class="cl-tag ct-opt">Recommended</span></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 7: POST-EVICTION -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="content-section" id="post-eviction">
+      <div class="section-eyebrow">New Maryland Law · Oct. 1, 2025</div>
+      <h2 class="section-h2">Post-Eviction <em>Property Rules</em></h2>
+      <hr class="gold-rule">
+      <div class="alert alert-danger">
+        <strong>Curbside disposal is now banned in Maryland (effective October 1, 2025).</strong>
+        You can no longer simply place tenant belongings at the curb and leave them. Violations can result in civil liability. Contact DK Law Group if you are unsure how to comply.
+      </div>
+      <div class="step-card open" style="margin-top:16px">
+        <button class="step-trigger" onclick="toggleStep(this)">
+          <div class="step-num-col" style="font-size:13px;font-family:'Inter',sans-serif;font-weight:700;color:var(--gold-dark);background:var(--gold-pale)">NEW</div>
+          <div class="step-head">
+            <div class="step-head-left">
+              <span class="phase-tag pt-you">Your Obligation</span>
+              <span class="step-title">10-Day Tenant Property Hold Rule</span>
+            </div>
+            <div class="step-meta"><span class="step-timing">Effective Oct. 1, 2025</span><span class="chevron">▾</span></div>
+          </div>
+        </button>
+        <div class="step-body">
+          <ul>
+            <li><strong>Secure the belongings:</strong> Leave tenant property inside the premises or move to secure storage. You may not leave belongings exposed on the curb or street.</li>
+            <li><strong>Hold for 10 days:</strong> Allow the tenant reasonable access to reclaim essential items for 10 days after the eviction date.</li>
+            <li><strong>Vacancy loss:</strong> You cannot re-rent the unit while the 10-day hold is in effect.</li>
+            <li><strong>After 10 days:</strong> Items not reclaimed may be treated as abandoned. You may then dispose of them lawfully.</li>
+          </ul>
+          <div class="alert alert-warn">
+            <strong>Baltimore County 24-hour rule still applies:</strong> Belongings placed at the front or rear of the property must remain for 24 hours before disposal. Coordinate this with the new 10-day statewide rule. Contact DK Law Group for current guidance.
+          </div>
+          <p><strong>Practical step:</strong> Notify the former tenant in writing (text or email) of the address where their belongings are being held and the 10-day deadline to retrieve them. Document all communications.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 8: COMMON MISTAKES -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="content-section" id="mistakes">
+      <div class="section-eyebrow">Avoid These Pitfalls</div>
+      <h2 class="section-h2">Common Mistakes <em>That Cancel Evictions</em></h2>
+      <hr class="gold-rule">
+      <div class="mistake-grid">
+        <div class="mistake-card"><div class="mk-row"><div class="mk-num">1</div><div class="mk-content"><div class="mk-title">Waiting too long — the warrant expires at 60 days</div><div class="mk-wrong">Filing the WOR request weeks or months after the trial</div><div class="mk-right">Act within the same week the WOR is issued. The 60-day clock starts from the court's issuance date, not when you received it.</div></div></div></div>
+        <div class="mistake-card"><div class="mk-row"><div class="mk-num">2</div><div class="mk-content"><div class="mk-title">Missing or improperly served notices</div><div class="mk-wrong">Sending only one form of notice, or sending it too late</div><div class="mk-right">Both 14-day (certified mail) and 7-day (door posting) are required. Send the 7-day notice 2 days before its posting date. CV-123 required in Baltimore County — must have Sheriff's stamp and be accompanied by CV-124 signed by the process server only.</div></div></div></div>
+        <div class="mistake-card"><div class="mk-row"><div class="mk-num">3</div><div class="mk-content"><div class="mk-title">Not calling the Constable by 8:00 AM (Baltimore County)</div><div class="mk-wrong">Assuming the Constable will show up without confirmation</div><div class="mk-right">For Baltimore County/Essex/Towson evictions, you must call Francis Ward (410-512-2338) or Nathan Gray (410-512-2027) by 8:00 AM on the day of eviction. No call = no Constable = cancelled eviction.</div></div></div></div>
+        <div class="mistake-card"><div class="mk-row"><div class="mk-num">4</div><div class="mk-content"><div class="mk-title">Arriving with an insufficient moving crew</div><div class="mk-wrong">Sending 1–2 people to move a large unit</div><div class="mk-right">The Sheriff/Constable will cancel if the crew cannot complete removal in the required time (2–4 hours depending on county). Overstaff — never understaff. Minimum 2 people for any live eviction.</div></div></div></div>
+        <div class="mistake-card"><div class="mk-row"><div class="mk-num">5</div><div class="mk-content"><div class="mk-title">Accepting payment but not cancelling the eviction</div><div class="mk-wrong">Accepting full payment but proceeding with the eviction anyway</div><div class="mk-right">If the tenant pays all amounts owed before the Sheriff arrives, you must immediately cancel the eviction — call DK Law Group AND the Sheriff's office the same day. Proceeding after acceptance of full payment exposes you to serious legal liability.</div></div></div></div>
+        <div class="mistake-card"><div class="mk-row"><div class="mk-num">6</div><div class="mk-content"><div class="mk-title">Dumping tenant property after eviction (new law)</div><div class="mk-wrong">Placing tenant belongings on the curb and leaving them (curbside disposal)</div><div class="mk-right">Curbside disposal is banned effective October 1, 2025. You must secure belongings and allow 10 days for the tenant to reclaim them. After 10 days, belongings may be treated as abandoned and disposed of lawfully.</div></div></div></div>
+        <div class="mistake-card"><div class="mk-row"><div class="mk-num">7</div><div class="mk-content"><div class="mk-title">Taking any action before the Sheriff declares repossession complete</div><div class="mk-wrong">Entering the property or changing locks before the Sheriff arrives</div><div class="mk-right">Even holding a signed Warrant of Restitution, any action taken before the Sheriff/Constable declares repossession complete is an illegal self-help eviction under Md. Real Property § 8-211. Wait for the official declaration.</div></div></div></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 9: FAQ -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="content-section" id="faq">
+      <div class="section-eyebrow">Got Questions?</div>
+      <h2 class="section-h2">Frequently Asked <em>Questions</em></h2>
+      <hr class="gold-rule">
+      <div class="faq-dark">
+        <div class="faq-dark-hdr">
+          <h3>Quick Answers</h3>
+          <p>Pulled from real client questions. Click any question to expand.</p>
+        </div>
+        <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><div class="faq-q-mark">Q</div><div class="faq-question">The tenant paid rent just before the eviction — what do I do?</div><span class="faq-plus">+</span></button><div class="faq-answer">In Failure to Pay Rent and Tenant Holdover cases, the tenant has the right of redemption until the Sheriff/Constable physically arrives. If they pay all past-due rent plus court costs in full (by cash, certified check, or money order), you are legally required to immediately cancel the eviction. Call DK Law Group AND the Sheriff's office the same day. Do not proceed — doing so after accepting full payment creates serious liability.</div></div>
+        <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><div class="faq-q-mark">Q</div><div class="faq-question">What if the eviction gets cancelled due to weather?</div><span class="faq-plus">+</span></button><div class="faq-answer">Evictions can be cancelled by the court/Constable due to temperatures at or below 32°F, winter storm or blizzard warnings, hurricane or tropical storm warnings, or excessive heat warnings from the National Weather Service. If cancelled, the court will reschedule — you will be notified. Your Warrant of Restitution remains valid through the original 60-day window.</div></div>
+        <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><div class="faq-q-mark">Q</div><div class="faq-question">Can I keep or sell the tenant's belongings after the eviction?</div><span class="faq-plus">+</span></button><div class="faq-answer">No. Under Maryland's new 10-Day Hold Rule (effective October 1, 2025), you must secure the tenant's belongings and allow them reasonable access to reclaim essential items for 10 days. Only after 10 days, if the items remain unclaimed, can they be treated as abandoned and disposed of lawfully. Contact DK Law Group for guidance on how to handle valuable or problematic items.</div></div>
+        <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><div class="faq-q-mark">Q</div><div class="faq-question">What if the tenant is not home when the Sheriff arrives?</div><span class="faq-plus">+</span></button><div class="faq-answer">The eviction proceeds regardless of whether the tenant is present. The Sheriff posts a notice on the front door confirming repossession. You still proceed with removal of belongings, change the locks, and apply the 10-day hold rule to any items left behind. Document the entire process with photographs.</div></div>
+        <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><div class="faq-q-mark">Q</div><div class="faq-question">The tenant filed an emergency motion — what do I do?</div><span class="faq-plus">+</span></button><div class="faq-answer">Stop all eviction activity immediately and contact DK Law Group. An active emergency motion or appeal may stay the eviction — proceeding while a stay is in effect could have serious legal consequences. Do not contact the Sheriff to reschedule until you've spoken with our office.</div></div>
+        <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><div class="faq-q-mark">Q</div><div class="faq-question">Can I collect unpaid rent separately after the eviction?</div><span class="faq-plus">+</span></button><div class="faq-answer">Yes. The eviction (possession) and a money judgment are separate proceedings. If the court awarded a money judgment in the FTPR case, you may pursue collection separately through the courts. Contact DK Law Group to discuss your options for pursuing the money judgment against the former tenant — wage garnishment, bank levy, or other collection methods may be available.</div></div>
+        <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)"><div class="faq-q-mark">Q</div><div class="faq-question">The Warrant of Restitution is about to expire — can it be extended?</div><span class="faq-plus">+</span></button><div class="faq-answer">The WOR expires 60 days from issuance. If you are approaching this deadline and have not yet been able to schedule the eviction (due to Sheriff delays, tenant actions, or other circumstances), contact DK Law Group immediately. We may be able to file for an extension through the court before expiration.</div></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 10: WHEN TO CALL DK LAW -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="content-section" id="contact-dk">
+      <div class="section-eyebrow">Legal Support</div>
+      <h2 class="section-h2">When to Call <em>DK Law Group</em></h2>
+      <hr class="gold-rule">
+      <p class="section-sub">You manage the logistics — we handle the legal complications. Stop and call us immediately in any of these situations.</p>
+      <div class="when-grid">
+        <div class="when-card"><div class="when-icon">📑</div><h4>Tenant files appeal or emergency motion</h4><p>Stop all eviction activity. An active appeal may stay the eviction — proceeding without authorization creates liability.</p></div>
+        <div class="when-card"><div class="when-icon">💰</div><h4>Dispute over amount owed</h4><p>Do not accept or reject any payment until you've spoken with our office. The correct amount must be verified.</p></div>
+        <div class="when-card"><div class="when-icon">⏳</div><h4>60-day deadline approaching</h4><p>If Sheriff scheduling delays are pushing you near the deadline, call us immediately to explore extension options.</p></div>
+        <div class="when-card"><div class="when-icon">🐾</div><h4>Pets, minors, or unusual circumstances</h4><p>Unattended animals, children without adults, medical equipment, or other special situations require legal guidance before proceeding.</p></div>
+        <div class="when-card"><div class="when-icon">🚫</div><h4>Tenant or occupant refuses to leave</h4><p>The Sheriff controls physical removal. For ongoing resistance, threats, or hostile behavior beyond the Sheriff's scope, call DK Law Group for next steps.</p></div>
+        <div class="when-card"><div class="when-icon">📋</div><h4>New eviction or money judgment needed</h4><p>FTPR judgments only cover the month filed. If the tenant defaults again, you must restart. Call us to begin the next filing.</p></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <h2>Let's Fix This Before It Gets Worse</h2>
+  <p>DK Law Group handles every stage of the Maryland eviction process. We're your legal team throughout.</p>
+  <a href="tel:2402660291">Schedule a Consultation — 240-266-0291</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo" style="pointer-events:none">
+        <div class="logo-box">dk</div>
+        <div class="logo-txt"><span class="logo-name">DK Law Group</span><span class="logo-tag">Empowering Legacies</span></div>
+      </div>
+      <p>Maryland's landlord-tenant law resource. Handling FTPR, Tenant Holdover, Wrongful Detainer, Breach of Lease, and eviction execution throughout Maryland.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Quick Links</div>
+      <ul class="footer-links">
+        <li><a href="#process">Eviction Process Steps</a></li>
+        <li><a href="#sheriff">Sheriff Scheduling Tool</a></li>
+        <li><a href="#notices">Notice Templates</a></li>
+        <li><a href="#compliance">Compliance Checkpoint</a></li>
+        <li><a href="#checklist">Day-Of Checklist</a></li>
+        <li><a href="#mistakes">Common Mistakes</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Contact</div>
+      <div class="footer-contact">
+        <div class="fc-row">📞 <a href="tel:2402660291">240-266-0291</a></div>
+        <div class="fc-row">📠 <a href="tel:2402660781">240-266-0781 (fax)</a></div>
+        <div class="fc-row">✉ <a href="mailto:diana@dklawmd.com">diana@dklawmd.com</a></div>
+        <div class="fc-row">📍 10451 Mill Run Cir #755<br>Owings Mills, MD 21117</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 DK Law Group. All rights reserved.</span>
+    <span>Md. Real Property § 8-401 · § 8-211 · § 8-402.1 · Rule 3-647 · § 8-407 · Oct. 1, 2025 amendments · This guide is for informational purposes only and does not constitute legal advice.</span>
+  </div>
+</footer>
+
+<!-- MOBILE STICKY CTA -->
+<div class="mobile-cta-bar">
+  <a href="#checklist">📋 Open Checklist</a>
+  <a href="tel:2402660291">📞 Call DK Law</a>
+</div>
+
+<script>
+// ─── Stage selector routing ───
+const stageTargets = ['process','notices','eviction-day'];
+function jumpToStage(i){
+  document.querySelectorAll('.stage-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
+  scrollToSection(stageTargets[i]);
+  // Auto-open relevant step
+  if(i===0) openStep(0);
+  if(i===1) openStep(2);
+  if(i===2) openStep(4);
+}
+function scrollToSection(id){
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function openStep(idx){
+  const s=document.querySelector(`.step-card[data-idx="${idx}"]`);
+  if(s && !s.classList.contains('open')) s.classList.add('open');
+}
+
+// ─── Step accordion ───
+function toggleStep(btn){
+  const card=btn.closest('.step-card');
+  card.classList.toggle('open');
+}
+
+// ─── Sheriff county selector ───
+function showCounty(val){
+  document.getElementById('county-placeholder').style.display='none';
+  document.querySelectorAll('.sheriff-content').forEach(d=>d.classList.remove('active'));
+  if(val){
+    const el=document.getElementById('sc-'+val);
+    if(el) el.classList.add('active');
+  } else {
+    document.getElementById('county-placeholder').style.display='block';
+  }
+}
+
+// ─── Copy script ───
+function copyScript(btn){
+  const text=btn.previousElementSibling.textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.textContent;
+    btn.textContent='✓ Copied!';
+    setTimeout(()=>btn.textContent=orig,2000);
+  }).catch(()=>{
+    btn.textContent='✓ Copied!';
+    setTimeout(()=>btn.textContent=btn.dataset.orig||'⎘ Copy script',2000);
+  });
+}
+
+// ─── Notice tabs ───
+function switchNoticeTab(btn,id){
+  document.querySelectorAll('.nt-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.notice-pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ─── Compliance checkpoint ───
+const totalCC=8;
+function toggleCC(el){
+  el.classList.toggle('checked');
+  el.querySelector('.cc-box').textContent=el.classList.contains('checked')?'✓':'';
+  const done=document.querySelectorAll('.cc-item.checked').length;
+  const gs=document.getElementById('gate-status');
+  const gt=document.getElementById('gate-text');
+  if(done===totalCC){
+    gs.classList.add('unlocked');
+    gs.querySelector('.gs-icon').textContent='🟢';
+    gt.textContent='All items confirmed — you are ready to proceed to eviction day.';
+  } else {
+    gs.classList.remove('unlocked');
+    gs.querySelector('.gs-icon').textContent='🔒';
+    gt.textContent=`${done} of ${totalCC} items confirmed — complete all items before eviction day.`;
+  }
+}
+
+// ─── Checklist ───
+function clk(el){
+  el.classList.toggle('done');
+  el.querySelector('.cl-box').textContent=el.classList.contains('done')?'✓':'';
+  const total=document.querySelectorAll('.cl-item').length;
+  const done=document.querySelectorAll('.cl-item.done').length;
+  document.getElementById('cl-prog').textContent=`${done} of ${total} complete`;
+}
+
+// ─── FAQ ───
+function toggleFaq(btn){
+  btn.closest('.faq-item').classList.toggle('open');
+}
+
+// ─── Sidebar scroll spy ───
+const sections=document.querySelectorAll('section[id], div[id="tracker"]');
+const navLinks=document.querySelectorAll('#side-nav a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-100)cur=s.id});
+  navLinks.forEach(a=>{
+    a.classList.remove('active');
+    if(a.getAttribute('href')==='#'+cur)a.classList.add('active');
+  });
+},{passive:true});
+</script>
+</body>
+</html>
